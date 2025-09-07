@@ -2,6 +2,12 @@
 - **Source:** https://github.com/confluentinc/cp-all-in-one
 
 # Setup
+- **Copy `.env.example` to `.env` & set env below**
+    - AWS Access Key must have access `AmazonS3FullAccess`, `AWSGlueConsoleFullAccess`
+```properties
+AWS_ACCESS_KEY_ID=
+AWS_SECRET_ACCESS_KEY=
+```
 - **Remove interceptor class**  
     - Do not set Confluent interceptor classes—these are not in the community image.
     - For `ksqldb-server`, set these in `docker-compose.yml`:
@@ -35,12 +41,10 @@ docker compose up -d flink-taskmanager
 docker compose up -d flink-sql-client
 ```
 
-# Access to KsqlDB via Ksql-CLI
-To open an interactive ksqlDB CLI session connected to your ksqlDB server, run:
-```sh
-docker exec -it ksqldb-cli ksql --config-file /etc/ksqldb-cli.properties http://ksqldb-server:8088
-
-docker exec -it ksqldb-cli ksql --config-file /etc/ksqldb-cli.properties http://ksqldb-server:8088 -e "SHOW STREAMS;"
+# Access to Flink-SQL-Client
+- **Run command below**
+```shell
+docker exec -it flink-sql-client sql-client.sh
 ```
 
 
