@@ -184,7 +184,9 @@ services:
       - global-net
 
   flink-sql-client:
-    image: cnfldemos/flink-sql-client-kafka:1.19.1-scala_2.12-java17
+    build:
+      context: .
+      dockerfile: Dockerfile_flink_sql_client 
     depends_on:
       - flink-jobmanager
     hostname: flink-sql-client

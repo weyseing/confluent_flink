@@ -1,0 +1,11 @@
+FROM cnfldemos/flink-sql-client-kafka:1.19.1-scala_2.12-java17
+
+# setup jars dependencies
+COPY jars_flink_client/iceberg-flink-runtime-1.19-1.6.1.jar /opt/flink/lib/
+COPY jars_flink_client/hadoop-aws-3.3.4.jar /opt/flink/lib/
+COPY jars_flink_client/hadoop-common-3.3.4.jar /opt/flink/lib/
+COPY jars_flink_client/hadoop-hdfs-client-3.3.4.jar /opt/flink/lib/
+COPY jars_flink_client/bundle-2.17.260.jar /opt/flink/lib/
+
+# change owner to flink
+RUN chown -R flink:flink /opt/flink/lib/
