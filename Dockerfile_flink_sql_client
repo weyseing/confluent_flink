@@ -1,11 +1,17 @@
-FROM cnfldemos/flink-sql-client-kafka:1.19.1-scala_2.12-java17
+# Stage 1: Use a Maven image to download dependencies
+FROM maven:3.8.5-openjdk-17 AS dependency-builder
 
-# setup jars dependencies
-COPY jars_flink_client/iceberg-flink-runtime-1.19-1.6.1.jar /opt/flink/lib/
-COPY jars_flink_client/hadoop-aws-3.3.4.jar /opt/flink/lib/
-COPY jars_flink_client/hadoop-common-3.3.4.jar /opt/flink/lib/
-COPY jars_flink_client/hadoop-hdfs-client-3.3.4.jar /opt/flink/lib/
-COPY jars_flink_client/bundle-2.17.260.jar /opt/flink/lib/
+WORKDIR /app
 
-# change owner to flink
+# Copy pom.xml to download dependencies
+COPY jars_flink_client/pom.xml .
+RUN mvn dependency:copy-dependencies -DoutputDirectory=target/lib
+
+# Stage 2: Build the final image for the Flink SQL client
+FROM cnfldemos/flink-kafka:1.19.1-scala_2.12-java17
+
+# Copy the dependencies from the builder stage
+COPY --from=dependency-builder /app/target/lib /opt/flink/lib/
 RUN chown -R flink:flink /opt/flink/lib/
+
+CMD ["sh", "-c", "tail -f /dev/null"]

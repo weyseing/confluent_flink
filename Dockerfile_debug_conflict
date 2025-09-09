@@ -1,0 +1,15 @@
+FROM maven:3.8.5-openjdk-17 AS dependency-builder
+
+WORKDIR /app
+
+# Copy pom.xml to download dependencies
+COPY jars_flink_client/pom.xml .
+
+# Override the command to execute bash
+CMD ["bash"]
+
+
+# docker build -f Dockerfile_debug_conflict -t conflict_debug .
+# docker run --rm -it conflict_debug
+# mvn dependency:tree
+# find the dependency conflict then exclude in pom.xml
