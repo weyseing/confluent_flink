@@ -161,7 +161,7 @@ services:
       - ksqldb-server
     entrypoint: /bin/sh
     volumes:
-      - ./core/ksqldb-cli/ksqldb-cli.properties:/etc/ksqldb-cli.properties
+      - ./cli/ksqldb-cli.properties:/etc/ksqldb-cli.properties
     tty: true
     networks:
       - global-net
