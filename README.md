@@ -8,20 +8,6 @@
 AWS_ACCESS_KEY_ID=
 AWS_SECRET_ACCESS_KEY=
 ```
-
-- **Download JARs dependencies files for Flink-SQL-Client**
-```bash
-curl -f -o ./jars_flink_client/iceberg-flink-runtime-1.19-1.6.1.jar https://repo1.maven.org/maven2/org/apache/iceberg/iceberg-flink-runtime-1.19/1.6.1/iceberg-flink-runtime-1.19-1.6.1.jar
-
-curl -f -o ./jars_flink_client/hadoop-aws-3.3.4.jar https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/3.3.4/hadoop-aws-3.3.4.jar
-
-curl -f -o ./jars_flink_client/bundle-2.17.260.jar https://repo1.maven.org/maven2/software/amazon/awssdk/bundle/2.17.260/bundle-2.17.260.jar
-
-curl -f -o ./jars_flink_client/hadoop-common-3.3.4.jar https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-common/3.3.4/hadoop-common-3.3.4.jar
-
-curl -f -o ./jars_flink_client/hadoop-hdfs-client-3.3.4.jar https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-hdfs-client/3.3.4/hadoop-hdfs-client-3.3.4.jar
-```
-
 - **Remove interceptor class**  
     - Do not set Confluent interceptor classes—these are not in the community image.
     - For `ksqldb-server`, set these in `docker-compose.yml`:
