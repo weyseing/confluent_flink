@@ -13,4 +13,7 @@ FROM cnfldemos/flink-kafka:1.19.1-scala_2.12-java17
 COPY --from=dependency-builder /app/target/lib /opt/flink/lib/
 RUN chown -R flink:flink /opt/flink/lib/
 
+# flink conf
+COPY flink-conf.yaml /opt/flink/conf/flink-conf.yaml
+
 CMD ["sh", "-c", "tail -f /dev/null"]

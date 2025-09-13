@@ -1,0 +1,19 @@
+# default
+blob.server.port: 6124
+taskmanager.memory.process.size: 1728m
+taskmanager.bind-host: 0.0.0.0
+jobmanager.execution.failover-strategy: region
+jobmanager.rpc.address: flink-sql-client
+jobmanager.memory.process.size: 1600m
+jobmanager.rpc.port: 6123
+query.server.port: 6125
+rest.bind-address: 0.0.0.0
+rest.port: 9081
+jobmanager.bind-host: 0.0.0.0
+parallelism.default: 1
+taskmanager.numberOfTaskSlots: 10
+rest.address: flink-jobmanager
+
+# catalog store
+table.catalog-store.kind: file
+table.catalog-store.file.path: /app/catalog_store
