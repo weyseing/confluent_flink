@@ -44,7 +44,14 @@ docker compose up -d flink-sql-client
 # Access to Flink-SQL-Client
 - **Run command below**
 ```shell
-docker exec -it flink-sql-client sql-client.sh
+docker exec -it flink-sql-client bash
+sql-client.sh
 ```
 
-
+# Persistent Catalog Store
+- This is to set Catelog to be **persistent** instead of **session-based**
+- **Add config below to `/opt/flink/conf/flink-conf.yaml`**
+```properties
+table.catalog-store.kind: file
+table.catalog-store.file.path: /app/catalog_store
+```

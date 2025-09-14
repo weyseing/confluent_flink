@@ -202,7 +202,9 @@ services:
       - global-net
 
   flink-jobmanager:
-    image: cnfldemos/flink-kafka:1.19.1-scala_2.12-java17
+    build:
+      context: .
+      dockerfile: Dockerfile_flink_sql_client 
     hostname: flink-jobmanager
     container_name: flink-jobmanager
     ports:
@@ -220,7 +222,9 @@ services:
       - global-net
 
   flink-taskmanager:
-    image: cnfldemos/flink-kafka:1.19.1-scala_2.12-java17
+    build:
+      context: .
+      dockerfile: Dockerfile_flink_sql_client 
     hostname: flink-taskmanager
     container_name: flink-taskmanager
     depends_on:

@@ -17,3 +17,6 @@ rest.address: flink-jobmanager
 # catalog store
 table.catalog-store.kind: file
 table.catalog-store.file.path: /app/catalog_store
+
+# parent-first class loader
+classloader.parent-first-patterns.additional: org.apache.iceberg,org.apache.iceberg.flink,org.apache.iceberg.aws,com.amazonaws,org.apache.hadoop
