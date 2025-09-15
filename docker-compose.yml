@@ -208,16 +208,16 @@ services:
     hostname: flink-jobmanager
     container_name: flink-jobmanager
     ports:
-    - 9081:9081
+      - 9081:9081
     command: jobmanager
     environment:
-    - |
-      FLINK_PROPERTIES=
-      jobmanager.rpc.address: flink-jobmanager
-      rest.bind-port: 9081
-    - AWS_REGION=${AWS_REGION}
-    - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
-    - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - |
+        FLINK_PROPERTIES=
+        jobmanager.rpc.address: flink-jobmanager
+        rest.bind-port: 9081
+      - AWS_REGION=${AWS_REGION}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
     networks:
       - global-net
 
@@ -228,17 +228,17 @@ services:
     hostname: flink-taskmanager
     container_name: flink-taskmanager
     depends_on:
-    - flink-jobmanager
+      - flink-jobmanager
     command: taskmanager
     scale: 1
     environment:
-    - |
-      FLINK_PROPERTIES=
-      jobmanager.rpc.address: flink-jobmanager
-      taskmanager.numberOfTaskSlots: 10
-    - AWS_REGION=${AWS_REGION}
-    - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
-    - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - |
+        FLINK_PROPERTIES=
+        jobmanager.rpc.address: flink-jobmanager
+        taskmanager.numberOfTaskSlots: 10
+      - AWS_REGION=${AWS_REGION}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
     networks:
       - global-net
 
