@@ -1,3 +1,21 @@
+-- connector table
+CREATE TABLE kafka_source_order (
+  id INT,
+  product STRING,
+  amount INT,
+  buyer_id INT,
+  create_date STRING,
+  update_date STRING,
+  PRIMARY KEY (id) NOT ENFORCED
+) WITH (
+  'connector' = 'upsert-kafka',
+  'topic' = 'stream_order_intake',
+  'key.format' = 'json',
+  'value.format' = 'json',
+  'properties.bootstrap.servers' = 'broker:29092',
+  'properties.group.id' = 'kafka_source_order'
+);
+
 -- glue catalog
 CREATE CATALOG catalog_glue WITH (
     'type'='iceberg',
@@ -10,44 +28,22 @@ CREATE CATALOG catalog_glue WITH (
 USE CATALOG catalog_glue;
 USE iceberg_db1;
 
--- source table
-CREATE TABLE kafka_source_order (
+-- sink table
+CREATE TABLE IF NOT EXISTS iceberg_sink_order (
   `id` INT,
   `product` STRING,
   `amount` INT,
   `buyer_id` INT,
   `create_date` STRING,
-  `update_date` STRING
+  `update_date` STRING,
+  PRIMARY KEY (`id`) NOT ENFORCED
 ) WITH (
-  'connector' = 'kafka',
-  'topic' = 'stream_order_intake',
-  'properties.bootstrap.servers' = 'broker:29092',
-  'properties.group.id' = 'flink-iceberg-consumer-20250915-1000',
-  'format' = 'json', 
-  'scan.startup.mode' = 'earliest-offset'
+  'format-version' = '2',
+  'write.upsert.enabled' = 'true'
 );
 
--- SET 'sql-client.execution.result-mode' = 'changelog';
-
--- CREATE TABLE test_topic_raw (
---   message STRING
--- ) WITH (
---   'connector' = 'kafka',
---   'topic' = 'test_topic',
---   'properties.bootstrap.servers' = 'broker:29092',
---   'properties.group.id' = 'flink_raw_debug',
---   'scan.startup.mode' = 'earliest-offset',
---   'format' = 'json'
--- );
-
--- CREATE TABLE test_topic_raw (
---   raw_value STRING
--- ) WITH (
---   'connector' = 'kafka',
---   'topic' = 'test_topic',
---   'properties.bootstrap.servers' = 'broker:29092',
---   'properties.group.id' = 'flink_raw_debug_20250915_1100',
---   'scan.startup.mode' = 'earliest-offset',
---   'format' = 'raw',
---   'raw.charset' = 'UTF-8'
--- );
+-- upsert job
+SET 'execution.checkpointing.interval' = '10s';
+SET 'execution.checkpointing.mode' = 'EXACTLY_ONCE';
+INSERT INTO iceberg_sink_order
+SELECT * FROM default_catalog.default_database.kafka_source_order;
